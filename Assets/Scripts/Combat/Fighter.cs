@@ -1,4 +1,5 @@
 using RPG.Movement;
+using RPG.Core;
 using UnityEngine;
 
 namespace RPG.Combat {
@@ -26,6 +27,7 @@ namespace RPG.Combat {
         }
 
         public void Attack(CombatTarget combatTarget) {
+            GetComponent<ActionScheduler>().startAction(this);
             target = combatTarget.transform;
             print("Take that you short, squat peasant!!");
         }

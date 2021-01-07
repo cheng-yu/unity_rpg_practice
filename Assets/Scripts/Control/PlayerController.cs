@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using RPG.Combat;
 using RPG.Movement;
+using RPG.Core;
 using UnityEngine;
 
 
