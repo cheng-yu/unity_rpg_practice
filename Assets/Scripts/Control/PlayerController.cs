@@ -9,9 +9,15 @@ using UnityEngine;
 namespace RPG.Control {
     public class PlayerController : MonoBehaviour
     {
+		private Health health;
+
+		private void Start() {
+            health = GetComponent<Health>();
+        }
         // Update is called once per frame
         void Update()
         {
+            if(health.isDead()) return;
             if(IntersactWithCombat()) return;
             if(IntersactWithMovement()) return;
         }
