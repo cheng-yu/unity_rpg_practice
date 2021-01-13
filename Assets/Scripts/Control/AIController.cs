@@ -9,18 +9,23 @@ namespace RPG.Control {
     {
         [SerializeField] float chaseDistance = 5f;
 
+        Fighter fighter;
+        GameObject player;
+        private void Start() {
+            fighter = GetComponent<Fighter>();
+            player = GameObject.FindWithTag("Player");
+        }
+
         private void Update() {
-            if(DistanceToPlayer() < chaseDistance) {
-                GameObject player = GameObject.FindWithTag("Player");
-                if(!GetComponent<Fighter>().CanAttack(player)) {
-                    GetComponent<Mover>().StartMoveAction(player.transform.position);
-                } else {
-                    GetComponent<Fighter>().Attack(player);
-                }
+            if(PlayerInAttackRange() && fighter.CanAttack(player)) {
+                fighter.Attack(player);
             } else {
-                GetComponent<Mover>().Cancel();
-                GetComponent<Fighter>().Cancel();
+                fighter.Cancel();
             }
+        }
+
+        private bool PlayerInAttackRange() {
+            return DistanceToPlayer() < chaseDistance;
         }
 
         private float DistanceToPlayer() {
