@@ -14,7 +14,6 @@ namespace RPG.Control {
         {
             if(IntersactWithCombat()) return;
             if(IntersactWithMovement()) return;
-            print("no where to go");
         }
 
         private bool IntersactWithCombat() {
@@ -24,14 +23,17 @@ namespace RPG.Control {
                 CombatTarget target = hit.transform.GetComponent<CombatTarget>();
                 if(target == null) continue;
 
+                if(!GetComponent<Fighter>().CanAttack(target.gameObject)) continue;
+
                 if(Input.GetMouseButtonDown(0)) {
-                    GetComponent<Fighter>().Attack(target);
+                    GetComponent<Fighter>().Attack(target.gameObject);
                 }
                 return true;
             }
 
             return false;
         }
+
         private bool IntersactWithMovement()
         {
             Ray ray = GetMouseRay();
