@@ -5,6 +5,7 @@ using UnityEngine.AI;
 namespace RPG.Movement {
     public class Mover : MonoBehaviour, IAction
     {
+        [SerializeField] float maxSpeed = 6f;
         NavMeshAgent agent;
         Health health;
 
@@ -19,14 +20,15 @@ namespace RPG.Movement {
             UpdateAnimator();
         }
 
-        public void StartMoveAction(Vector3 destination) {
+        public void StartMoveAction(Vector3 destination, float speedFraction) {
             GetComponent<ActionScheduler>().startAction(this);
-            MoveTo(destination);
+            MoveTo(destination, speedFraction);
         }
 
-        public void MoveTo(Vector3 destination)
+        public void MoveTo(Vector3 destination, float speedFraction)
         {
             agent.destination = destination;
+            agent.speed = maxSpeed * Mathf.Clamp01(speedFraction);
             agent.isStopped = false;
         }
 

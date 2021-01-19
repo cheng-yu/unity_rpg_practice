@@ -14,6 +14,8 @@ namespace RPG.Control {
         [SerializeField] float potralOnWayPointTime = 3f;
         [SerializeField] PatrolPath potralPath;
         [SerializeField] float waypointTolerance = 1f;
+        [Range(0, 1)]
+        [SerializeField] float patrolSpeedFraction = 0.2f;
 
         Mover mover;
         Fighter fighter;
@@ -71,7 +73,7 @@ namespace RPG.Control {
             }
 
             if(timeSinceMoveToCurrentWayPoint > potralOnWayPointTime) {
-			    mover.StartMoveAction(nextPosition);
+			    mover.StartMoveAction(nextPosition, patrolSpeedFraction);
             }
 		}
 
