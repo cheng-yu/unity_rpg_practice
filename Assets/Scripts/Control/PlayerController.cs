@@ -9,12 +9,17 @@ using UnityEngine;
 namespace RPG.Control {
     public class PlayerController : MonoBehaviour
     {
+		private Health health;
+
+		private void Start() {
+            health = GetComponent<Health>();
+        }
         // Update is called once per frame
         void Update()
         {
+            if(health.isDead()) return;
             if(IntersactWithCombat()) return;
             if(IntersactWithMovement()) return;
-            print("no where to go");
         }
 
         private bool IntersactWithCombat() {
@@ -24,14 +29,17 @@ namespace RPG.Control {
                 CombatTarget target = hit.transform.GetComponent<CombatTarget>();
                 if(target == null) continue;
 
+                if(!GetComponent<Fighter>().CanAttack(target.gameObject)) continue;
+
                 if(Input.GetMouseButtonDown(0)) {
-                    GetComponent<Fighter>().Attack(target);
+                    GetComponent<Fighter>().Attack(target.gameObject);
                 }
                 return true;
             }
 
             return false;
         }
+
         private bool IntersactWithMovement()
         {
             Ray ray = GetMouseRay();
@@ -42,7 +50,7 @@ namespace RPG.Control {
             {
                 if (Input.GetMouseButton(0))
                 {
-                    GetComponent<Mover>().StartMoveAction(hit.point);
+                    GetComponent<Mover>().StartMoveAction(hit.point, 1f);
                 }
                 return true;
             }
